@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\Auth;
 use App\Http\Controllers\Api\ApiController;
 use App\Http\Requests\Auth\AuthLogin;
 use App\Http\Requests\Auth\AuthRegister;
+use App\Models\ShoppingSession;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
@@ -17,7 +18,8 @@ class AuthController extends ApiController
         $user = User::create($request->validated());
         $user->assignRole("user");
         $user->sendEmailVerificationNotification();
-        return $this->successResponse("Başarılı bir şekilde giriş yaptınız. Lütfen email adresinizi onaylayınız.");
+        ShoppingSession::create(["user_id"=>$user->id]);
+        return $this->successResponse("Başarılı bir şekilde kayıt oldunuz. Lütfen email adresinizi onaylayınız.");
     }
 
     public function login(AuthLogin $request)

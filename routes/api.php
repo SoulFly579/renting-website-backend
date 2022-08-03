@@ -1,7 +1,10 @@
 <?php
 
+use App\Http\Controllers\Api\AddressController;
 use App\Http\Controllers\Api\Auth\AuthController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\ProductController;
+use App\Http\Controllers\Api\CategoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,9 +27,15 @@ Route::middleware("auth:sanctum")->group(function(){
     });
     /* End Email Verification */
 
-    Route::view("/profile","auth.profile");
+    /* Start Address */
+    Route::resource("address",AddressController::class);
+    /* End Address */
 
     Route::prefix("/renter")->middleware("role:renter")->group(function (){
-        Route::view("/","renter.dashboard");
+        Route::resource("product",ProductController::class);
+    });
+
+    Route::prefix("/admin")->middleware("role:admin")->group(function (){
+        Route::resource("category",CategoryController::class);
     });
 });

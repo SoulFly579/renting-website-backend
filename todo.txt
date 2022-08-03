@@ -1,2 +1,6 @@
 [] Welcome and verification email will be sent.
-[] Verification Code silinebilir.
+[] Verification Code can be deleted.
+
+
+On going
+[] ShoppingSession is on going rn.
