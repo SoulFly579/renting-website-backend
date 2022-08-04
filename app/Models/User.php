@@ -3,6 +3,7 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Jobs\QueuedVerifyEmailJob;
 use Illuminate\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -54,6 +55,16 @@ class User extends Authenticatable
         static::creating(function ($model) {
             $model->password = Hash::make($model->password);
         });
+    }
+
+    /**
+     * Override method for the queue verification mail
+     * @return void
+     */
+    public function sendEmailVerificationNotification()
+    {
+        //dispactches the job to the queue passing it this User object
+        QueuedVerifyEmailJob::dispatch($this);
     }
 
 }

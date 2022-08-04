@@ -15,8 +15,14 @@ class Product extends Model
     protected $fillable = [
       "name",
       "total_stock",
-        "category_id"
+        "category_id",
+        "active"
     ];
+
+    protected $casts = [
+        "active"=>"boolean"
+    ];
+
 
     protected static function booted()
     {
@@ -35,5 +41,10 @@ class Product extends Model
     public function category()
     {
         return $this->hasOne(Category::class,"id","category_id");
+    }
+
+    public function rent_times()
+    {
+        return $this->hasMany(RentTime::class,"product_id","id");
     }
 }

@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Requests\Categories\CreateRequest;
 use App\Http\Requests\Categories\UpdateRequest;
+use App\Jobs\InformationMailMakingDeactiveProductJob;
 use App\Models\Category;
+use Illuminate\Support\Facades\Log;
 
 class CategoryController extends ApiController
 {
@@ -28,6 +30,9 @@ class CategoryController extends ApiController
 
     public function destroy(Category $category)
     {
+        $ids = $category->products()->where("active",true)->get(["user_id","id"]);
+        InformationMailMakingDeactiveProductJob::dispatch($ids);
+        $category->products()->update(["active"=>false]);
         $category->delete();
         return $this->successResponse(null,"Kategori başarılı bir şekilde silinmiştir.");
     }

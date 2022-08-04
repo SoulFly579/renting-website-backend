@@ -6,6 +6,7 @@ use App\Http\Requests\Products\CreateRequest;
 use App\Http\Requests\Products\UpdateRequest;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\RentTime;
 
 class ProductController extends ApiController
 {
@@ -23,7 +24,11 @@ class ProductController extends ApiController
 
     public function store(CreateRequest $request)
     {
-        $product = Product::create($request->validated());
+        $product = Product::create($request->safe()->except("rent_times"));
+        foreach ($request->rent_times as $rent_time){
+            $product->rent_times()->create($rent_time);
+        }
+        $product->load("rent_times");
         return $this->successResponse($product,"Ürün başarılı bir şekilde eklendi.");
     }
 

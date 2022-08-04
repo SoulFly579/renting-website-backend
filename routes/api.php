@@ -1,10 +1,11 @@
 <?php
 
 use App\Http\Controllers\Api\AddressController;
-use App\Http\Controllers\Api\Auth\AuthController;
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Api\ProductController;
+use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\CategoryController;
+use App\Http\Controllers\Api\ProductController;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\RentTimeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,11 +32,12 @@ Route::middleware("auth:sanctum")->group(function(){
     Route::resource("address",AddressController::class);
     /* End Address */
 
-    Route::prefix("/renter")->middleware("role:renter")->group(function (){
-        Route::resource("product",ProductController::class);
+    Route::prefix("/renter")->middleware("role:renter|admin")->group(function (){
+        Route::resource("product",ProductController::class)->except(["show"]);
+        Route::resource("rent_time",RentTimeController::class)->except(["show"]);
     });
 
     Route::prefix("/admin")->middleware("role:admin")->group(function (){
-        Route::resource("category",CategoryController::class);
+        Route::resource("category",CategoryController::class)->except(["show"]);
     });
 });
