@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\ProductController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\RentTimeController;
+use App\Http\Controllers\Api\ProductGalleryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,6 +35,7 @@ Route::middleware("auth:sanctum")->group(function(){
 
     Route::prefix("/renter")->middleware("role:renter|admin")->group(function (){
         Route::resource("product",ProductController::class)->except(["show"]);
+        Route::resource("product.gallery",ProductGalleryController::class)->only(["store","destroy"]);
         Route::resource("rent_time",RentTimeController::class)->except(["show"]);
     });
 

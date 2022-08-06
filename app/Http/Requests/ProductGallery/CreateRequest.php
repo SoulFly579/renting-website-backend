@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Requests\Categories;
+namespace App\Http\Requests\ProductGallery;
 
 use App\Http\Requests\ApiFormRequest;
-use Illuminate\Validation\Rule;
+use Illuminate\Foundation\Http\FormRequest;
 
 class CreateRequest extends ApiFormRequest
 {
@@ -14,7 +14,7 @@ class CreateRequest extends ApiFormRequest
      */
     public function authorize()
     {
-        return auth()->user()->hasRole("admin");
+        return auth()->user()->hasAnyRole("admin","renter");
     }
 
     /**
@@ -25,7 +25,8 @@ class CreateRequest extends ApiFormRequest
     public function rules()
     {
         return [
-            "name"=>["string","required","max:255",Rule::unique("categories")->whereNull("deleted_at")]
+            "images"=>["required","array"],
+            "images.*"=>["required","file","mimes:jpg,jpeg,png"],
         ];
     }
 }

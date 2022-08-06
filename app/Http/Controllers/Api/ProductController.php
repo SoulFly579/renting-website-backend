@@ -6,7 +6,10 @@ use App\Http\Requests\Products\CreateRequest;
 use App\Http\Requests\Products\UpdateRequest;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\ProductGallery;
 use App\Models\RentTime;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class ProductController extends ApiController
 {
@@ -28,7 +31,14 @@ class ProductController extends ApiController
         foreach ($request->rent_times as $rent_time){
             $product->rent_times()->create($rent_time);
         }
-        $product->load("rent_times");
+        if($request->hasFile("galleries")){
+            foreach ($request->galleries as $gallery){
+                $path = Storage::putFile(ProductGallery::PATH_DESTINATION,$gallery,$gallery);
+                $product->galleries()->create(["path"=>Str::replace("public","storage",$path)]);
+            }
+        }
+        /* TODO api resources eklenecek tüm endpointlere*/
+        $product->load(["rent_times","galleries"]);
         return $this->successResponse($product,"Ürün başarılı bir şekilde eklendi.");
     }
 
@@ -40,6 +50,7 @@ class ProductController extends ApiController
 
     public function update(Product $product,UpdateRequest $request){
         $product->update($request->validated());
+        $product->load("rent_times");
         return $this->successResponse($product,"Ürün başarılı şekilde güncellenmiştir.");
     }
 

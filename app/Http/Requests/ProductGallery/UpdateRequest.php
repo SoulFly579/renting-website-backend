@@ -1,9 +1,8 @@
 <?php
 
-namespace App\Http\Requests\RentTimes;
+namespace App\Http\Requests\ProductGallery;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
 class UpdateRequest extends FormRequest
 {
@@ -14,7 +13,7 @@ class UpdateRequest extends FormRequest
      */
     public function authorize()
     {
-        return auth()->user()->hasAnyRole("renter","admin");
+        return false;
     }
 
     /**
@@ -25,11 +24,7 @@ class UpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            "name"=>["string","max:255","required"],
-            "amount_of_time"=>["numeric","required"],
-            "type_of_period"=>["string","required","max:255"],
-            "product_id" => ["required"],
-            "cost"=>["required","numeric"]
+            //
         ];
     }
 }

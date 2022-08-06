@@ -3,6 +3,7 @@
 namespace App\Http\Requests\RentTimes;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class CreateRequest extends FormRequest
 {
@@ -24,7 +25,12 @@ class CreateRequest extends FormRequest
     public function rules()
     {
         return [
-            ""
+            "rent_times" => ["required","array"],
+            "rent_times.*.name"=>["string","required_with:rent_times","max:255",Rule::unique("rent_times")->whereNull("deleted_at")],
+            "rent_times.*.amount_of_time"=>["numeric","required_with:rent_times"],
+            "rent_times.*.type_of_period"=>["string","required_with:rent_times","max:255"],
+            "rent_times.*.cost"=>["numeric","required_with:rent_times"],
+            "rent_times.*.product_id" => ["required"]
         ];
     }
 }

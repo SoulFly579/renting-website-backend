@@ -1,6 +1,5 @@
-[] Welcome and verification email will be sent.
 [] Verification Code can be deleted.
-
+[] API resources eklenecek tüm endpointlere
 
 On going
-[] ShoppingSession is on going rn.
+

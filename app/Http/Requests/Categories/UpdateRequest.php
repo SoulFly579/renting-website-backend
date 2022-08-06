@@ -25,7 +25,7 @@ class UpdateRequest extends ApiFormRequest
     public function rules()
     {
         return [
-            "name"=>["string","required","max:255",Rule::unique("categories")->whereNotNull("deleted_at")]
+            "name"=>["string","required","max:255",Rule::unique("categories")->whereNull("deleted_at")]
         ];
     }
 }

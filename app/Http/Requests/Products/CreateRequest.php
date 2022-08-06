@@ -29,9 +29,11 @@ class CreateRequest extends FormRequest
             "category_id"=>["required"],
             "total_stock"=>["numeric","required","min:1"],
             "rent_times" => ["nullable","array"],
-            "rent_times.*.name"=>["string","required_with:rent_times","max:255",Rule::unique("rent_times")->whereNotNull("deleted_at")],
+            "rent_times.*.name"=>["string","required_with:rent_times","max:255",Rule::unique("rent_times")->whereNull("deleted_at")],
             "rent_times.*.amount_of_time"=>["numeric","required_with:rent_times"],
             "rent_times.*.type_of_period"=>["string","required_with:rent_times","max:255"],
+            "galleries"=> ["array","nullable"],
+            "galleries.*" => ["required_with:galleries","file","mimes:jpg,png,jpeg"],
         ];
     }
 }
