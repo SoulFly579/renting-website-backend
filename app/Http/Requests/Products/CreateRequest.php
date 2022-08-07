@@ -2,10 +2,10 @@
 
 namespace App\Http\Requests\Products;
 
-use Illuminate\Foundation\Http\FormRequest;
+use App\Http\Requests\ApiFormRequest;
 use Illuminate\Validation\Rule;
 
-class CreateRequest extends FormRequest
+class CreateRequest extends ApiFormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,7 +26,7 @@ class CreateRequest extends FormRequest
     {
         return [
             "name"=>["string","max:255","required"],
-            "category_id"=>["required"],
+            "category_id"=>["required",Rule::exists("categories")->whereNull("deleted_at")->where("id")],
             "total_stock"=>["numeric","required","min:1"],
             "rent_times" => ["nullable","array"],
             "rent_times.*.name"=>["string","required_with:rent_times","max:255",Rule::unique("rent_times")->whereNull("deleted_at")],

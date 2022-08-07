@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Requests\Auth\AuthLogin;
 use App\Http\Requests\Auth\AuthRegister;
+use App\Http\Resources\AuthResource;
 use App\Models\ShoppingSession;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -23,7 +24,7 @@ class AuthController extends ApiController
     {
         if(Auth::attempt(["email"=>$request->email,"password"=>$request->password],$request->remember_me)){
             $response = [
-                "user" => auth()->user(),
+                "user" => AuthResource::make(auth()->user()),
                 "token" => auth()->user()->createToken("token_name")->plainTextToken
             ];
             return $this->successResponse($response);

@@ -4,9 +4,11 @@ use App\Http\Controllers\Api\AddressController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\ProductController;
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Api\RentTimeController;
 use App\Http\Controllers\Api\ProductGalleryController;
+use App\Http\Controllers\Api\ProductVariantGroupController;
+use App\Http\Controllers\Api\ProductVariantValueController;
+use App\Http\Controllers\Api\RentTimeController;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,6 +38,8 @@ Route::middleware("auth:sanctum")->group(function(){
     Route::prefix("/renter")->middleware("role:renter|admin")->group(function (){
         Route::resource("product",ProductController::class)->except(["show"]);
         Route::resource("product.gallery",ProductGalleryController::class)->only(["store","destroy"]);
+        Route::resource("product.variant_group",ProductVariantGroupController::class)->except(["show"]);
+        Route::resource("product.variant_group.variant_value",ProductVariantValueController::class)->except(["index","show"]);
         Route::resource("rent_time",RentTimeController::class)->except(["show"]);
     });
 

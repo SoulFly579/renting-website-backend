@@ -1,5 +1,7 @@
 [] Verification Code can be deleted.
-[] API resources eklenecek tüm endpointlere
+[] API resources eklenecek tüm endpointlere // tüm endpointlerde kullanman gerekiyor mu ?
+[] SEO tagları eklenecek
+[] Category nested kategoriye çevrilecek
+[] şehir olayları eklenicek
 
-On going
 

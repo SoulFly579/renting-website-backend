@@ -52,4 +52,14 @@ class Product extends Model
     {
         return $this->hasMany(ProductGallery::class,"product_id","id");
     }
+
+    public function variant_groups()
+    {
+        return $this->hasMany(ProductVariantGroup::class,"product_id","id");
+    }
+/*
+    public function variants()
+    {
+        return $this->hasManyThrough(ProductVariantValue::class,ProductVariantGroup::class);
+    }*/
 }

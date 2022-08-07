@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Requests\Products;
+namespace App\Http\Requests\ProductVariantValues;
 
 use App\Http\Requests\ApiFormRequest;
 use Illuminate\Validation\Rule;
 
-class UpdateRequest extends ApiFormRequest
+class CreateRequest extends ApiFormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -14,7 +14,7 @@ class UpdateRequest extends ApiFormRequest
      */
     public function authorize()
     {
-        return auth()->user()->hasAnyRole("renter","admin");
+        return auth()->user()->hasAnyRole(["renter","admin"]);
     }
 
     /**
@@ -25,9 +25,9 @@ class UpdateRequest extends ApiFormRequest
     public function rules()
     {
         return [
-            "name"=>["string","max:255","required"],
-            "category_id"=>["required",Rule::exists("categories")->whereNull("deleted_at")->where("id")],
-            "total_stock"=>["numeric","required","min:1"],
+            "variants"=>["array","required"],
+            "variants.*.name"=>["required","string",Rule::unique("product_variant_values")->whereNull("deleted_at")],
+            "variants.*.stock"=>["required","numeric","min:1"],
         ];
     }
 }

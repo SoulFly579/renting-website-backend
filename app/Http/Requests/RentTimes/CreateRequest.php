@@ -2,10 +2,10 @@
 
 namespace App\Http\Requests\RentTimes;
 
-use Illuminate\Foundation\Http\FormRequest;
+use App\Http\Requests\ApiFormRequest;
 use Illuminate\Validation\Rule;
 
-class CreateRequest extends FormRequest
+class CreateRequest extends ApiFormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -30,7 +30,7 @@ class CreateRequest extends FormRequest
             "rent_times.*.amount_of_time"=>["numeric","required_with:rent_times"],
             "rent_times.*.type_of_period"=>["string","required_with:rent_times","max:255"],
             "rent_times.*.cost"=>["numeric","required_with:rent_times"],
-            "rent_times.*.product_id" => ["required"]
+            "rent_times.*.product_id" => ["required",Rule::exists("products")->whereNull("deleted_at")->where("id")]
         ];
     }
 }

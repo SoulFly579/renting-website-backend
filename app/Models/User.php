@@ -67,4 +67,8 @@ class User extends Authenticatable
         QueuedVerifyEmailJob::dispatch($this);
     }
 
+    public function products()
+    {
+        return $this->hasMany(Product::class,"user_id","id");
+    }
 }

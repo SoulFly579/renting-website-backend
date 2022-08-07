@@ -8,6 +8,7 @@ use App\Models\Address;
 
 class AddressController extends ApiController
 {
+    /*TODO api resources eklenecek*/
     public function index()
     {
         return $this->successResponse(Address::auth()->get());

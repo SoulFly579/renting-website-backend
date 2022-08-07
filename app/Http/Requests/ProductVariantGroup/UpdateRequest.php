@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Http\Requests\RentTimes;
+namespace App\Http\Requests\ProductVariantGroup;
 
 use App\Http\Requests\ApiFormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateRequest extends ApiFormRequest
 {
@@ -13,7 +14,7 @@ class UpdateRequest extends ApiFormRequest
      */
     public function authorize()
     {
-        return auth()->user()->hasAnyRole("renter","admin");
+        return auth()->user()->hasAnyRole(["admin","renter"]);
     }
 
     /**
@@ -24,11 +25,8 @@ class UpdateRequest extends ApiFormRequest
     public function rules()
     {
         return [
-            "name"=>["string","max:255","required"],
-            "amount_of_time"=>["numeric","required"],
-            "type_of_period"=>["string","required","max:255"],
-            "product_id" => ["required"],
-            "cost"=>["required","numeric"]
+            "name" => ["required","string",Rule::unique("product_variant_groups")->whereNull("deleted_at")->ignore($this->variant_group->name,"name")],
+            "product_variant_group_id" => ["nullable", Rule::exists("product_variant_groups")->whereNull("deleted_at")->where("id")],
         ];
     }
 }

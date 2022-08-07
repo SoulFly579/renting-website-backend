@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Requests\RentTimes\CreateRequest;
 use App\Http\Requests\RentTimes\UpdateRequest;
+use App\Http\Resources\ProductResource;
+use App\Http\Resources\RentTimeResource;
 use App\Models\Product;
 use App\Models\RentTime;
 
@@ -11,13 +13,12 @@ class RentTimeController extends ApiController
 {
     public function index()
     {
-        $rent_times = RentTime::with("product")->get();
-        return $this->successResponse($rent_times);
+        return $this->successResponse(RentTimeResource::collection(RentTime::with("product")->get()));
     }
 
     public function create()
     {
-        $products = Product::all();
+        $products = ProductResource::collection(Product::all());
         return $this->successResponse($products);
     }
 
@@ -34,15 +35,13 @@ class RentTimeController extends ApiController
 
     public function edit(RentTime $rentTime)
     {
-        $products = Product::all();
-        return $this->successResponse(["rent_time"=>$rentTime,"products"=>$products]);
+        return $this->successResponse(["rent_time"=>RentTimeResource::make($rentTime->load("product")),"products"=>ProductResource::collection(Product::all())]);
     }
 
     public function update(RentTime $rentTime, UpdateRequest $request)
     {
         $rentTime->update($request->validated());
-        $rentTime->load("product");
-        return $this->successResponse($rentTime,"Başarılı bir şekilde güncellenmiştir.");
+        return $this->successResponse(RentTimeResource::make($rentTime->load("product")),"Başarılı bir şekilde güncellenmiştir.");
     }
 
     public function destroy(RentTime $rentTime)
