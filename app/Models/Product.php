@@ -58,8 +58,19 @@ class Product extends Model
         return $this->hasMany(ProductVariantGroup::class,"product_id","id");
     }
 
+    /* added for the getting values for the checking if variant id is in products while adding some product to cart */
+    public function variant_values()
+    {
+        return $this->hasManyThrough(ProductVariantValue::class,ProductVariantGroup::class);
+    }
+
     public function addition_groups()
     {
         return $this->hasMany(ProductAdditionGroup::class,"product_id","id")->with("options");
     }
+
+/*    public function user()
+    {
+        return $this->belongsTo(User::class,"user_id","id");
+    }*/
 }

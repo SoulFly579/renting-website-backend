@@ -9,7 +9,9 @@ use App\Http\Controllers\Api\ProductVariantGalleryController;
 use App\Http\Controllers\Api\ProductVariantGroupController;
 use App\Http\Controllers\Api\ProductVariantValueController;
 use App\Http\Controllers\Api\ProductAdditionGroupController;
+use App\Http\Controllers\Api\ShoppingSessionController;
 use App\Http\Controllers\Api\ProductAdditionOptionController;
+use App\Http\Controllers\Api\CartItemController;
 use App\Http\Controllers\Api\RentTimeController;
 use Illuminate\Support\Facades\Route;
 
@@ -37,6 +39,20 @@ Route::middleware("auth:sanctum")->group(function(){
     /* Start Address */
     Route::resource("address",AddressController::class);
     /* End Address */
+
+    /* Start Cart */
+    Route::prefix("/cart")->group(function(){
+        Route::prefix("/product/{product}")->group(function(){
+            Route::post("/add",[CartItemController::class,"add"]);
+            Route::post("/increase",[CartItemController::class,"increase"]);
+            Route::post("/decrease",[CartItemController::class,"decrease"]);
+            Route::post("/clear",[CartItemController::class,"clear"]);
+        });
+        Route::get("/",[ShoppingSessionController::class,"index"]);
+        Route::post("/clear_all",[ShoppingSessionController::class,"clear_all"]);
+
+    });
+    /* End Cart */
 
     Route::prefix("/renter")->middleware("role:renter|admin")->group(function (){
         Route::resource("product",ProductController::class)->except(["show"]);

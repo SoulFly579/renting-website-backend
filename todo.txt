@@ -3,10 +3,11 @@
 [] SEO tagları eklenecek
 [] Category nested kategoriye çevrilecek
 [] şehir olayları eklenicek
-
-
+[] reviews eklenecek
 
 ## Tartışılıp taha abiye sorulacaklar ##
     ->varyant gruplarında ve additionlarda product bazlı olacağından index, create koyma
 
 
+## check
+modelleri ve ilişkileri kontrol et

@@ -17,4 +17,9 @@ class ShoppingSession extends Model
     public function user(){
         return $this->hasOne(User::class,"id","user_id");
     }
+
+    public function cart()
+    {
+        return $this->hasMany(CartItem::class,"session_id","id");
+    }
 }
