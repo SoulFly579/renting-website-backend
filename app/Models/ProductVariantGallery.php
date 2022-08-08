@@ -9,9 +9,13 @@ class ProductVariantGallery extends Model
 {
     use HasFactory;
 
+    const PATH_DESTINATION = "public/products/variants/galleries";
+
     protected $fillable = [
       "variant_id",
       "path"
     ];
+
+
 
 }

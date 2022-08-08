@@ -39,6 +39,7 @@ class ProductController extends ApiController
                 $product->galleries()->create(["path"=>Str::replace("public","storage",$path)]);
             }
         }
+
         return $this->successResponse(ProductResource::make($product->load(["galleries","rent_times"])),"Ürün başarılı bir şekilde eklendi.");
     }
 
@@ -46,7 +47,7 @@ class ProductController extends ApiController
     {
         $categories = Category::all();
         return $this->successResponse(["categories"=>ProductCategoryResource::collection($categories),
-            "product"=>ProductResource::make($product->load(["galleries","rent_times","category","variant_groups"]))]);
+            "product"=>ProductResource::make($product->load(["galleries","rent_times","category","variant_groups","addition_groups"]))]);
     }
 
     public function update(Product $product,UpdateRequest $request){

@@ -5,8 +5,11 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\ProductGalleryController;
+use App\Http\Controllers\Api\ProductVariantGalleryController;
 use App\Http\Controllers\Api\ProductVariantGroupController;
 use App\Http\Controllers\Api\ProductVariantValueController;
+use App\Http\Controllers\Api\ProductAdditionGroupController;
+use App\Http\Controllers\Api\ProductAdditionOptionController;
 use App\Http\Controllers\Api\RentTimeController;
 use Illuminate\Support\Facades\Route;
 
@@ -37,9 +40,12 @@ Route::middleware("auth:sanctum")->group(function(){
 
     Route::prefix("/renter")->middleware("role:renter|admin")->group(function (){
         Route::resource("product",ProductController::class)->except(["show"]);
+        Route::resource("product.addition_group",ProductAdditionGroupController::class)->only(["store","destroy","update"]);
+        Route::resource("product.addition_group.addition_option",ProductAdditionOptionController::class)->except(["show"]);
         Route::resource("product.gallery",ProductGalleryController::class)->only(["store","destroy"]);
         Route::resource("product.variant_group",ProductVariantGroupController::class)->except(["show"]);
         Route::resource("product.variant_group.variant_value",ProductVariantValueController::class)->except(["index","show"]);
+        Route::resource("product.variant_group.variant_value.gallery",ProductVariantGalleryController::class)->only(["store","destroy"]);
         Route::resource("rent_time",RentTimeController::class)->except(["show"]);
     });
 

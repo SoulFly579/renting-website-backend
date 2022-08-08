@@ -57,9 +57,9 @@ class Product extends Model
     {
         return $this->hasMany(ProductVariantGroup::class,"product_id","id");
     }
-/*
-    public function variants()
+
+    public function addition_groups()
     {
-        return $this->hasManyThrough(ProductVariantValue::class,ProductVariantGroup::class);
-    }*/
+        return $this->hasMany(ProductAdditionGroup::class,"product_id","id")->with("options");
+    }
 }

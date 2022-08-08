@@ -26,7 +26,8 @@ class ProductResource extends JsonResource
           "galleries"=>ProductGalleryResource::collection($this->whenLoaded("galleries")),
           "variants" => ProductVariantGroupResource::collection($this->whenLoaded("variant_groups",function (){
               return ProductVariantValueResource::collection($this->variant_groups->load("values"));
-          }))
+          })),
+          "additions" => ProductAdditionGroupResource::collection($this->whenLoaded("addition_groups"))
 
             /*TODO additionlar ve varyantlar eklenecek*/
         ];

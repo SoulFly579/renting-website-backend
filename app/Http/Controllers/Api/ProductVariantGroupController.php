@@ -16,12 +16,6 @@ class ProductVariantGroupController extends ApiController
         return $this->successResponse($product_variants_groups);
     }
 
-    public function create()
-    {
-        $product_variants_groups = ProductVariantGroupResource::collection(ProductVariantGroup::all());
-        return $this->successResponse($product_variants_groups);
-    }
-
     public function store(Product $product,CreateRequest $request)
     {
         foreach ($request->variants as $variant){

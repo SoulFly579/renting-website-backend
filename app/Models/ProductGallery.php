@@ -9,7 +9,7 @@ class ProductGallery extends Model
 {
     use HasFactory;
 
-    const PATH_DESTINATION = "public/products/gallery";
+    const PATH_DESTINATION = "public/products/galleries";
 
     protected $fillable = [
         "path",

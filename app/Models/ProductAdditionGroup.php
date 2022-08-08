@@ -6,18 +6,18 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class ProductVariantValue extends Model
+class ProductAdditionGroup extends Model
 {
     use HasFactory,SoftDeletes;
 
     protected $fillable = [
-        "product_variant_group_id",
-        "name",
-        "stock"
+      "name",
+      "product_id"
     ];
 
-    public function galleries()
+    public function options()
     {
-        return $this->hasMany(ProductVariantGallery::class,"variant_id","id");
+        return $this->hasMany(ProductAdditionOption::class,"addition_group_id","id");
     }
+
 }

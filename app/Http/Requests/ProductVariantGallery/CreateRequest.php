@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\ProductGallery;
+namespace App\Http\Requests\ProductVariantGallery;
 
-use Illuminate\Foundation\Http\FormRequest;
+use App\Http\Requests\ApiFormRequest;
 
-class UpdateRequest extends FormRequest
+class CreateRequest extends ApiFormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,7 +13,7 @@ class UpdateRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return auth()->user()->hasAnyRole(["renter","admin"]);
     }
 
     /**
@@ -24,7 +24,8 @@ class UpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            "images"=>["required","array"],
+            "images.*"=>["required","file","mimes:jpg,jpeg,png"],
         ];
     }
 }

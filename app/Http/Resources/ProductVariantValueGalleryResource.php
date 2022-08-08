@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class ProductVariantValueResource extends JsonResource
+class ProductVariantValueGalleryResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -15,11 +15,7 @@ class ProductVariantValueResource extends JsonResource
     public function toArray($request)
     {
         return [
-            "id"=>$this->id,
-            "parent_id"=>ProductVariantGroupResource::make($this->whenLoaded("parent")),
-            "name" => $this->name,
-            "stock"=>$this->stock,
-            "galleries"=> ProductVariantValueGalleryResource::collection($this->whenLoaded("galleries")),
+          "path"=>url($this->path),
         ];
         //return parent::toArray($request);
     }

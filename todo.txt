@@ -5,3 +5,8 @@
 [] şehir olayları eklenicek
 
 
+
+## Tartışılıp taha abiye sorulacaklar ##
+    ->varyant gruplarında ve additionlarda product bazlı olacağından index, create koyma
+
+

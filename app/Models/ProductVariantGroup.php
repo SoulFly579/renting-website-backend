@@ -32,6 +32,6 @@ class ProductVariantGroup extends Model
     }
 
     public function values(){
-        return $this->hasMany(ProductVariantValue::class,"product_variant_group_id","id");
+        return $this->hasMany(ProductVariantValue::class,"product_variant_group_id","id")->with("galleries");
     }
 }
