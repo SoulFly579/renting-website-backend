@@ -16,7 +16,7 @@ class ProductVariantValueResource extends JsonResource
     {
         return [
             "id"=>$this->id,
-            "parent_id"=>ProductVariantGroupResource::make($this->whenLoaded("parent")),
+            "group"=>ProductVariantGroupResource::make($this->whenLoaded("group")),
             "name" => $this->name,
             "stock"=>$this->stock,
             "galleries"=> ProductVariantValueGalleryResource::collection($this->whenLoaded("galleries")),

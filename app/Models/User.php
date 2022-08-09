@@ -77,4 +77,8 @@ class User extends Authenticatable
         return $this->hasOne(ShoppingSession::class,"user_id","id");
     }
 
+    public function cart()
+    {
+        return $this->shopping_session()->with("cart");
+    }
 }

@@ -26,7 +26,11 @@ class CreateRequest extends ApiFormRequest
     {
         return [
             "quantity" => ["required","min:1"],
-            "variant_id"=>["nullable",Rule::exists("product_variant_values","id")]
+            "variant_id"=>[Rule::requiredIf(fn()=> $this->product->variant_groups->count() > 0 ),Rule::exists("product_variant_values","id")],
+            "rent_time_id"=>["required",Rule::exists("rent_times","id")->whereNull("deleted_at")],
+            "additions" => [Rule::requiredIf(fn()=> $this->product->addition_groups->count() > 0 ), "array"],
+            "additions.*.addition_id" => ["required_with:additions",Rule::exists("product_addition_groups","id")],
+            "additions.*.option_id" => ["required_with:additions",Rule::exists("product_addition_options","id")],
         ];
     }
 }

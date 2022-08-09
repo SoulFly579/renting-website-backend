@@ -24,7 +24,7 @@ class AuthController extends ApiController
     {
         if(Auth::attempt(["email"=>$request->email,"password"=>$request->password],$request->remember_me)){
             $response = [
-                "user" => AuthResource::make(auth()->user()),
+                "user" => AuthResource::make(auth()->user()->load("cart")),
                 "token" => auth()->user()->createToken("token_name")->plainTextToken
             ];
             return $this->successResponse($response);

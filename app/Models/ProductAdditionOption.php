@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class ProductAdditionOption extends Model
@@ -15,4 +16,9 @@ class ProductAdditionOption extends Model
       "name",
       "price"
     ];
+
+    public function group() : BelongsTo
+    {
+        return $this->belongsTo(ProductAdditionGroup::class,"addition_group_id","id");
+    }
 }

@@ -19,6 +19,8 @@ class InformationMailMakingDeactiveProductJob implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     public $ids;
+
+    public $afterCommit = true;
     /**
      * Create a new job instance.
      *

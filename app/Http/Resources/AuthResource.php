@@ -24,6 +24,7 @@ class AuthResource extends JsonResource
             "email_verified_at"=>$this->email_verified_at,
             "roles"=>$this->roles,
             "products"=>ProductResource::collection($this->whenLoaded("products")),
+            "cart"=>CartResource::make($this->whenLoaded("cart")),
             //"cart"=>$this->whenLoaded(""),
         ];
         /*return parent::toArray($request);*/

@@ -14,6 +14,12 @@ class ProductAdditionOptionResource extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+         return [
+           "id"=>$this->id,
+           "group" => ProductAdditionGroupResource::make($this->whenLoaded("addition_group")),
+           "name" => $this->addition_option->name,
+             "price"=>$this->addition_option->price
+         ];
+        //   return parent::toArray($request);
     }
 }

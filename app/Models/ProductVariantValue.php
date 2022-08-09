@@ -21,8 +21,8 @@ class ProductVariantValue extends Model
         return $this->hasMany(ProductVariantGallery::class,"variant_id","id");
     }
 
-/*    public function group()
+    public function group()
     {
         return $this->belongsTo(ProductVariantGroup::class,"product_variant_group_id","id");
-    }*/
+    }
 }

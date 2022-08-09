@@ -20,6 +20,8 @@ class QueuedVerifyEmailJob implements ShouldQueue
      *
      * @return void
      */
+    public $afterCommit = true;
+
     public function __construct(protected User $user)
     {
         //

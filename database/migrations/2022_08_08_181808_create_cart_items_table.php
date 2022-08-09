@@ -19,6 +19,7 @@ return new class extends Migration
             $table->foreignId("product_id")->constrained("products")->cascadeOnDelete();
             $table->foreignId("variant_id")->nullable()->constrained("product_variant_values")->cascadeOnDelete();
             $table->integer("quantity")->default(1);
+            $table->foreignId("rent_time_id")->constrained("rent_times")->cascadeOnDelete();
             $table->softDeletes();
             $table->timestamps();
         });

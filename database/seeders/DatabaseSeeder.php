@@ -19,7 +19,7 @@ class DatabaseSeeder extends Seeder
 
         \App\Models\User::factory()->create([
              'full_name' => 'Test User',
-             'email' => 'test@example.com',
+             'email' => 'test@example.com'
          ]);
 
         Role::create([
