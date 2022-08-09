@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('email/verify/{id}/{hash}', [\App\Http\Controllers\VerificationController::class,"verify"])->middleware(["signed",'throttle:6,1'])->name('verification.verify');
+Route::get('/email/verify/{id}/{hash}', [\App\Http\Controllers\VerificationController::class,"verify"])->middleware(['throttle:6,1'])->name('verification.verify');
 
 
 

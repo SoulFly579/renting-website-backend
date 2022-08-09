@@ -15,13 +15,6 @@ class QueuedVerifyEmailJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    /**
-     * Create a new job instance.
-     *
-     * @return void
-     */
-    public $afterCommit = true;
-
     public function __construct(protected User $user)
     {
         //

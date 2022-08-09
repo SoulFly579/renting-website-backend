@@ -35,7 +35,7 @@ class AuthController extends ApiController
 
     public function verify_resend(Request $request) {
         $request->user()->sendEmailVerificationNotification();
-        return back()->with('success', 'Onaylama e-postası terkardan gönderildi.');
+        return $this->successResponse(null, 'Onaylama e-postası terkardan gönderildi.');
     }
 }
 
