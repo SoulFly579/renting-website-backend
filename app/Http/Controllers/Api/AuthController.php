@@ -17,7 +17,7 @@ class AuthController extends ApiController
         $user->assignRole("user");
         $user->sendEmailVerificationNotification();
         ShoppingSession::create(["user_id"=>$user->id]);
-        return $this->successResponse("Başarılı bir şekilde kayıt oldunuz. Lütfen email adresinizi onaylayınız.");
+        return $this->successResponse(null,"Başarılı bir şekilde kayıt oldunuz. Lütfen email adresinizi onaylayınız.",201);
     }
 
     public function login(AuthLogin $request)
