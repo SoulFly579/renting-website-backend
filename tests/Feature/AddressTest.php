@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Date;
 use Tests\TestCase;
 
 class AddressTest extends TestCase
@@ -82,6 +83,21 @@ class AddressTest extends TestCase
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY)->assertJson(["is_error"=>true]);
     }
 
+    public function test_update_address_with_already_exist_field()
+    {
+        $this->actingAs(User::factory()->create());
+        Address::factory()->create([
+            "name"=>"Test 1"
+        ]);
+        $address = Address::factory()->create();
+        $response = $this->putJson("/api/address/".$address->id,[
+            "name"=>"Test 1",
+            "city"=>fake()->city,
+            "address"=>fake()->address,
+        ]);
+        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY)->assertJson(["is_error"=>true]);
+    }
+
     public function test_delete_address()
     {
         $this->actingAs(User::factory()->create());
@@ -89,5 +105,15 @@ class AddressTest extends TestCase
         $response = $this->delete("/api/address/".$address->id);
         $this->assertSoftDeleted("addresses");
         $response->assertStatus(Response::HTTP_OK)->assertJson(["is_error"=>false]);
+    }
+
+    public function test_delete_address_already_deleted()
+    {
+        $this->actingAs(User::factory()->create());
+        $address = Address::factory()->create([
+            "deleted_at" => Date::now()
+        ]);
+        $response = $this->delete("/api/address/".$address->id);
+        $response->assertStatus(Response::HTTP_NOT_FOUND)->assertJson(["is_error"=>true]);
     }
 }

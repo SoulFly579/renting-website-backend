@@ -43,7 +43,7 @@ Route::middleware("auth:sanctum")->group(function(){
     /* Start Cart */
     Route::prefix("/cart")->group(function(){
         Route::prefix("/product/{product}")->group(function(){
-            Route::post("/add",[CartItemController::class,"add"]);
+            Route::post("/add/{shoppingItemId}",[CartItemController::class,"add"]);
             Route::post("/increase",[CartItemController::class,"increase"]);
             Route::post("/decrease",[CartItemController::class,"decrease"]);
             Route::post("/clear",[CartItemController::class,"clear"]);
@@ -68,4 +68,8 @@ Route::middleware("auth:sanctum")->group(function(){
     Route::prefix("/admin")->middleware("role:admin")->group(function (){
         Route::resource("category",CategoryController::class)->except(["show"]);
     });
+
+    /*
+     *  TODO: Shopping history, complete order, search, homepage, etc
+     * */
 });

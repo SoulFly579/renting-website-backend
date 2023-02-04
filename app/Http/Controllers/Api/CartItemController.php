@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Requests\CartItem\CreateRequest;
+use App\Http\Requests\CartItem\IncreaseItemRequest;
 use App\Http\Resources\CartResource;
 use App\Models\CartItem;
 use App\Models\Product;
@@ -48,15 +49,77 @@ class CartItemController extends ApiController
 
         return $this->successResponse(CartResource::make(auth()->user()->cart),"Başarılı bir şekilde ürün sepete eklendi.",201);
     }
-
-    public function increase()
+    /* TODO check the methods below */
+    public function increase(Product $product,$shoppingItemId, IncreaseItemRequest $request)
     {
+        if(!auth()->user()->shopping_session){
+            auth()->user()->shopping_session()->create();
+        }
+        if(!$product->variant_values()->find($request->variant_id)){
+            return $this->errorResponse("Hatalı istek",400);
+        }
 
+        // Check if product is in the cart, increase the count
+        $total = auth()->user()->shopping_session->total;
+        $cartItem = CartItem::auth()->same($request->merge(["product_id"=>$product->id]))->first();
+        $rentingCost = RentTime::select("cost")->where("id",$request->rent_time_id)->firstOrFail()->cost;
+        if($cartItem){
+            $cartItem->update(["quantity"=> ($cartItem->quantity++)]);
+            $total = $total + $rentingCost;
+        }else{
+            return $this->errorResponse("Hatalı istek",400);
+        }
+
+        ProductVariantValue::where("id",$request->variant_id)->decrement("stock",1);
+
+        if($request->additions){
+            foreach ($request->additions as $addition){
+                $additionPrice = ProductAdditionOption::select("price")->where("id",$addition["option_id"])->firstOrFail()->price;
+                $cartItem->additions()->create($addition);
+                $total = $total + $additionPrice;
+            }
+        }
+
+        auth()->user()->shopping_session()->update(["total"=>$total]);
+        $product->decrement("total_stock",1);
+
+        return $this->successResponse(CartResource::make(auth()->user()->cart),"Başarılı bir şekilde ürün sepete eklendi.",201);
     }
 
-    public function decrease()
+    public function decrease(Product $product,$shoppingItemId, IncreaseItemRequest $request)
     {
+        if(!auth()->user()->shopping_session){
+            auth()->user()->shopping_session()->create();
+        }
+        if(!$product->variant_values()->find($request->variant_id)){
+            return $this->errorResponse("Hatalı istek",400);
+        }
 
+        // Check if product is in the cart, increase the count
+        $total = auth()->user()->shopping_session->total;
+        $cartItem = CartItem::auth()->same($request->merge(["product_id"=>$product->id]))->first();
+        $rentingCost = RentTime::select("cost")->where("id",$request->rent_time_id)->firstOrFail()->cost;
+        if($cartItem){
+            $cartItem->update(["quantity"=> ($cartItem->quantity--)]);
+            $total = $total - $rentingCost;
+        }else{
+            return $this->errorResponse("Hatalı istek",400);
+        }
+
+        ProductVariantValue::where("id",$request->variant_id)->increase("stock",1);
+
+        if($request->additions){
+            foreach ($request->additions as $addition){
+                $additionPrice = ProductAdditionOption::select("price")->where("id",$addition["option_id"])->firstOrFail()->price;
+                $cartItem->additions()->delete($addition->id);
+                $total = $total - $additionPrice;
+            }
+        }
+
+        auth()->user()->shopping_session()->update(["total"=>$total]);
+        $product->increase("total_stock",1);
+
+        return $this->successResponse(CartResource::make(auth()->user()->cart),"Başarılı bir şekilde ürün sepetten çıkarıldı.",201);
     }
 
     public function clear(){
