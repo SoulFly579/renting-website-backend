@@ -29,7 +29,7 @@ class AuthController extends ApiController
             ];
             return $this->successResponse($response);
         }
-        return $this->errorResponse("Böyle bir kullanıcı bulunamadı.",404);
+        return $this->errorResponse("Bu bilgilerle uyuşan bir kullanıcı bulunamadı.",404);
     }
 
 

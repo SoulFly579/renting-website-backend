@@ -25,7 +25,7 @@ class CreateRequest extends ApiFormRequest
     public function rules()
     {
         return [
-            "name"=>["required","string","max:255", Rule::unique('address')->whereNull('deleted_at')],
+            "name"=>["required","string","max:255", Rule::unique('addresses')->whereNull('deleted_at')],
             "city"=>["required","string","max:255"],
             "address"=>["required","string"],
             "receiver_full_name"=>["required","string","max:255"],

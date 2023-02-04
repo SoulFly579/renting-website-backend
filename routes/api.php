@@ -37,7 +37,7 @@ Route::middleware("auth:sanctum")->group(function(){
     /* End Email Verification */
 
     /* Start Address */
-    Route::resource("address",AddressController::class);
+    Route::resource("address",AddressController::class)->except("create","show");
     /* End Address */
 
     /* Start Cart */
